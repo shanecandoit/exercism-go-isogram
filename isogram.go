@@ -4,17 +4,17 @@ import "unicode"
 
 // An isogram (also known as a "nonpattern word") is a word or phrase without a repeating letter, however spaces and hyphens are allowed to appear multiple times.
 
-// IsIsogram
+// IsIsogram is a string made of unique letters, handle mixed case, ignore spaces and hyphens
 func IsIsogram(in string) bool {
 
-	if len(in) == 0 {
-		return true
-	}
-
-	// in = string.ToUpper(in)
-
+	// in = strings.ToUpper(in) // unicode.ToUpper is faster
 	chars := make(map[rune]bool)
 	for _, ch := range in {
+
+		if ch == '-' || ch == ' ' {
+			continue
+		}
+
 		ch = unicode.ToUpper(ch)
 		if !chars[ch] {
 			chars[ch] = true
@@ -25,13 +25,3 @@ func IsIsogram(in string) bool {
 
 	return true
 }
-
-/*
-FIXED
-- isogram_test.go:8: FAIL: word with duplicated character in mixed case
-- Word "Alphabet", expected false, got true
-
-TODO
-- isogram_test.go:8: FAIL: isogram with duplicated hyphen
-- Word "six-year-old", expected true, got false
-*/
